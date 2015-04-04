@@ -6,6 +6,18 @@ class Background:
       self.imgs = imgs
       self.current_img = 0
 
+   def get_images(self):
+      return self.imgs
+
+   def get_image(self):
+      return self.imgs[self.current_img]
+
+   def get_name(self):
+      return self.name
+
+   def next_image(self):
+      self.current_img = (self.current_img + 1) % len(self.imgs)
+
 
 class MinerNotFull:
    def __init__(self, name, resource_limit, position, rate, imgs,
@@ -20,6 +32,57 @@ class MinerNotFull:
       self.animation_rate = animation_rate
       self.pending_actions = []
 
+   def set_position(self, point):
+      self.position = point
+
+   def get_position(self):
+      return self.position
+
+   def get_images(self):
+      return self.imgs
+
+   def get_image(self):
+      return self.imgs[self.current_img]
+
+   def get_rate(self):
+      return self.rate
+
+   def set_resource_count(self, n):
+      self.resource_count = n
+
+   def get_resource_count(self):
+      return self.resource_count
+
+   def get_resource_limit(self):
+      return self.resource_limit
+
+   def get_name(self):
+      return self.name
+
+   def get_animation_rate(self):
+      return self.animation_rate
+
+   def remove_pending_action(self, action):
+      self.pending_actions.remove(action)
+
+   def add_pending_action(self, action):
+      self.pending_actions.append(action)
+
+   def get_pending_actions(self):
+      return self.pending_actions
+
+   def clear_pending_actions(self):
+      self.pending_actions = []
+
+   def next_image(self):
+      self.current_img = (self.current_img + 1) % len(self.imgs)
+
+   def entity_string(self):
+      return ' '.join(['miner', self.name, str(self.position.x),
+         str(self.position.y), str(self.resource_limit),
+         str(self.rate), str(self.animation_rate)])
+
+
 class MinerFull:
    def __init__(self, name, resource_limit, position, rate, imgs,
       animation_rate):
@@ -33,6 +96,49 @@ class MinerFull:
       self.animation_rate = animation_rate
       self.pending_actions = []
 
+   def set_position(self, point):
+      self.position = point
+
+   def get_position(self):
+      return self.position
+
+   def get_images(self):
+      return self.imgs
+
+   def get_image(self):
+      return self.imgs[self.current_img]
+
+   def get_rate(self):
+      return self.rate
+
+   def get_resource_count(self):
+      return self.resource_count
+
+   def get_resource_limit(self):
+      return self.resource_limit
+
+   def get_name(self):
+      return self.name
+
+   def get_animation_rate(self):
+      return self.animation_rate
+
+   def remove_pending_action(self, action):
+      self.pending_actions.remove(action)
+
+   def add_pending_action(self, action):
+      self.pending_actions.append(action)
+
+   def get_pending_actions(self):
+      return self.pending_actions
+
+   def clear_pending_actions(self):
+      self.pending_actions = []
+
+   def next_image(self):
+      self.current_img = (self.current_img + 1) % len(self.imgs)
+
+
 class Vein:
    def __init__(self, name, rate, position, imgs, resource_distance=1):
       self.name = name
@@ -43,6 +149,48 @@ class Vein:
       self.resource_distance = resource_distance
       self.pending_actions = []
 
+   def set_position(self, point):
+      self.position = point
+
+   def get_position(self):
+      return self.position
+
+   def get_images(self):
+      return self.imgs
+
+   def get_image(self):
+      return self.imgs[self.current_img]
+
+   def get_rate(self):
+      return self.rate
+
+   def get_resource_distance(self):
+      return self.resource_distance
+
+   def get_name(self):
+      return self.name
+
+   def remove_pending_action(self, action):
+      self.pending_actions.remove(action)
+
+   def add_pending_action(self, action):
+      self.pending_actions.append(action)
+
+   def get_pending_actions(self):
+      return self.pending_actions
+
+   def clear_pending_actions(self):
+      self.pending_actions = []
+
+   def next_image(self):
+      self.current_img = (self.current_img + 1) % len(self.imgs)
+
+   def entity_string(self):
+      return ' '.join(['vein', self.name, str(self.position.x),
+         str(self.position.y), str(self.rate),
+         str(self.resource_distance)])
+
+
 class Ore:
    def __init__(self, name, position, imgs, rate=5000):
       self.name = name
@@ -51,6 +199,41 @@ class Ore:
       self.current_img = 0
       self.rate = rate
       self.pending_actions = []
+
+   def set_position(self, point):
+      self.position = point
+
+   def get_position(self):
+      return self.position
+
+   def get_images(self):
+      return self.imgs
+
+   def get_image(self):
+      return self.imgs[self.current_img]
+
+   def get_name(self):
+      return self.name
+
+   def remove_pending_action(self, action):
+      self.pending_actions.remove(action)
+
+   def add_pending_action(self, action):
+      self.pending_actions.append(action)
+
+   def get_pending_actions(self):
+      return self.pending_actions
+
+   def clear_pending_actions(self):
+      self.pending_actions = []
+
+   def next_image(self):
+      self.current_img = (self.current_img + 1) % len(self.imgs)
+
+   def entity_string(self):
+      return ' '.join(['ore', self.name, str(self.position.x),
+         str(self.position.y), str(self.rate)])
+
 
 class Blacksmith:
    def __init__(self, name, position, imgs, resource_limit, rate,
@@ -65,12 +248,86 @@ class Blacksmith:
       self.resource_distance = resource_distance
       self.pending_actions = []
 
+   def set_position(self, point):
+      self.position = point
+
+   def get_position(self):
+      return self.position
+
+   def get_images(self):
+      return self.imgs
+
+   def get_image(self):
+      return self.imgs[self.current_img]
+
+   def get_rate(self):
+      return self.rate
+
+   def set_resource_count(self, n):
+      self.resource_count = n
+
+   def get_resource_count(self):
+      return self.resource_count
+
+   def get_resource_limit(self):
+      return self.resource_limit
+
+   def get_resource_distance(self):
+      return self.resource_distance
+
+   def get_name(self):
+      return self.name
+
+   def remove_pending_action(self, action):
+      self.pending_actions.remove(action)
+
+   def add_pending_action(self, action):
+      self.pending_actions.append(action)
+
+   def get_pending_actions(self):
+      return self.pending_actions
+
+   def clear_pending_actions(self):
+      self.pending_actions = []
+
+   def next_image(self):
+      self.current_img = (self.current_img + 1) % len(self.imgs)
+
+   def entity_string(self):
+      return ' '.join(['blacksmith', self.name, str(self.position.x),
+         str(self.position.y), str(self.resource_limit),
+         str(self.rate), str(self.resource_distance)])
+
+
 class Obstacle:
    def __init__(self, name, position, imgs):
       self.name = name
       self.position = position
       self.imgs = imgs
       self.current_img = 0
+
+   def set_position(self, point):
+      self.position = point
+
+   def get_position(self):
+      return self.position
+
+   def get_images(self):
+      return self.imgs
+
+   def get_image(self):
+      return self.imgs[self.current_img]
+
+   def get_name(self):
+      return self.name
+
+   def next_image(self):
+      self.current_img = (self.current_img + 1) % len(self.imgs)
+
+   def entity_string(self):
+      return ' '.join(['obstacle', self.name, str(self.position.x),
+         str(self.position.y)])
+
 
 class OreBlob:
    def __init__(self, name, position, rate, imgs, animation_rate):
@@ -82,6 +339,43 @@ class OreBlob:
       self.animation_rate = animation_rate
       self.pending_actions = []
 
+   def set_position(self, point):
+      self.position = point
+
+   def get_position(self):
+      return self.position
+
+   def get_images(self):
+      return self.imgs
+
+   def get_image(self):
+      return self.imgs[self.current_img]
+
+   def get_rate(self):
+      return self.rate
+
+   def get_name(self):
+      return self.name
+
+   def get_animation_rate(self):
+      return self.animation_rate
+
+   def remove_pending_action(self, action):
+      self.pending_actions.remove(action)
+
+   def add_pending_action(self, action):
+      self.pending_actions.append(action)
+
+   def get_pending_actions(self):
+      return self.pending_actions
+
+   def clear_pending_actions(self):
+      self.pending_actions = []
+
+   def next_image(self):
+      self.current_img = (self.current_img + 1) % len(self.imgs)
+
+
 class Quake:
    def __init__(self, name, position, imgs, animation_rate):
       self.name = name
@@ -91,8 +385,41 @@ class Quake:
       self.animation_rate = animation_rate
       self.pending_actions = []
 
+   def set_position(self, point):
+      self.position = point
 
-def set_position(entity, point):
+   def get_position(self):
+      return self.position
+
+   def get_images(self):
+      return self.imgs
+
+   def get_image(self):
+      return self.imgs[self.current_img]
+
+   def get_name(self):
+      return self.name
+
+   def get_animation_rate(self):
+      return self.animation_rate
+
+   def remove_pending_action(self, action):
+      self.pending_actions.remove(action)
+
+   def add_pending_action(self, action):
+      self.pending_actions.append(action)
+
+   def get_pending_actions(self):
+      return self.pending_actions
+
+   def clear_pending_actions(self):
+      self.pending_actions = []
+
+   def next_image(self):
+      self.current_img = (self.current_img + 1) % len(self.imgs)
+
+
+"""def set_position(entity, point):
    entity.position = point
 
 def get_position(entity):
@@ -154,13 +481,13 @@ def clear_pending_actions(entity):
 
 
 def next_image(entity):
-   entity.current_img = (entity.current_img + 1) % len(entity.imgs)
+   entity.current_img = (entity.current_img + 1) '% 'len(entity.imgs)"""
 
 
 # This is a less than pleasant file format, but structured based on
 # material covered in course.  Something like JSON would be a
 # significant improvement.
-def entity_string(entity):
+"""def entity_string(entity):
    if isinstance(entity, MinerNotFull):
       return ' '.join(['miner', entity.name, str(entity.position.x),
          str(entity.position.y), str(entity.resource_limit),
@@ -180,5 +507,6 @@ def entity_string(entity):
       return ' '.join(['obstacle', entity.name, str(entity.position.x),
          str(entity.position.y)])
    else:
-      return 'unknown'
+      return 'unknown'"""
+
 
