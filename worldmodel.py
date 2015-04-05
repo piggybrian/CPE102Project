@@ -13,8 +13,101 @@ class WorldModel:
       self.occupancy = occ_grid.Grid(num_cols, num_rows, None)
       self.entities = []
       self.action_queue = ordered_list.OrderedList()
+    
+   def within_bounds(self, pt):
+       return (pt.x >= 0 and pt.x < self.num_cols and
+           pt.y >= 0 and pt.y < self.num_rows)
 
 
+   def is_occupied(self, pt):
+       return (self.within_bounds(pt) and
+           self.occupancy.occ_grid.get_cell(pt) != None)
+    
+   def add_entity(self, entity):
+       pt = entities.get_position(entity)
+       if self.within_bounds(pt):
+          old_entity = self.occupancy.occ_grid.get_cell(pt)
+          if old_entity != None:
+               entities.clear_pending_actions(old_entity)
+          self.occupancy.occ_grid.set_cell(pt, entity)
+          self.entities.append(entity)
+            
+   def move_entity(self, entity, pt):
+       tiles = []
+       if self.within_bounds(pt):
+           old_pt = entities.get_position(entity)
+           self.occupancy.occ_grid.set_cell(old_pt, None)
+           tiles.append(old_pt)
+           self.occupancy.occ_grid.set_cell(pt, entity)
+           tiles.append(pt)
+           entities.set_position(entity, pt)
+
+       return tiles
+
+
+   def remove_entity(self, entity):
+        self.remove_entity_at(entities.get_position(entity))    
+    
+   def remove_entity_at(self, pt):
+       if (self.within_bounds(pt) and
+           self.occupancy.occ_grid.get_cell(pt) != None):
+           entity = self.occupancy.occ_grid.get_cell(pt)
+           entities.set_position(entity, point.Point(-1, -1))
+           self.entities.remove(entity)
+           self.occupancy.occ_grid.set_cell(pt, None)   
+            
+   def schedule_action(self, action, time):
+       self.action_queue.insert(action, time)
+
+
+   def unschedule_action(self, action):
+       self.action_queue.remove(action)
+        
+   def update_on_time(world, ticks):
+       tiles = []
+
+       next = world.action_queue.head()
+       while next and next.ord < ticks:
+          world.action_queue.pop()
+          tiles.extend(next.item(ticks))  # invoke action function
+          next = world.action_queue.head()
+
+       return tiles
+
+
+   def get_background_image(self,pt):
+       if self.within_bounds(pt):
+           return entities.get_image(self.background.occ_grid.get_cell(pt))
+
+
+   def get_background(self,pt):
+       if self.within_bounds(pt):
+           return self.background.occ_grid.get_cell(pt)
+
+
+   def set_background(self, pt, bgnd):
+       if self.within_bounds(pt):
+          self.background.occ_grid.set_cell(pt, bgnd)
+
+
+   def get_tile_occupant(self,pt):
+       if self.within_bounds(pt):
+           return self.occupancy.occ_grid.get_cell(pt)
+
+
+   def get_entities(self):
+       return self.entities
+    
+   def find_nearest(world, pt, type):
+        oftype = [(e, distance_sq(pt, entities.get_position(e)))
+          for e in world.entities if isinstance(e, type)]
+
+        return nearest_entity(oftype)    
+    
+    
+
+
+"""
 def within_bounds(world, pt):
    return (pt.x >= 0 and pt.x < world.num_cols and
       pt.y >= 0 and pt.y < world.num_rows)
@@ -23,6 +116,8 @@ def within_bounds(world, pt):
 def is_occupied(world, pt):
    return (within_bounds(world, pt) and
       occ_grid.get_cell(world.occupancy, pt) != None)
+      
+"""
 
 
 def nearest_entity(entity_dists):
@@ -41,12 +136,13 @@ def nearest_entity(entity_dists):
 def distance_sq(p1, p2):
    return (p1.x - p2.x)**2 + (p1.y - p2.y)**2
 
-
+"""
 def find_nearest(world, pt, type):
    oftype = [(e, distance_sq(pt, entities.get_position(e)))
       for e in world.entities if isinstance(e, type)]
 
    return nearest_entity(oftype)
+
 
 
 def add_entity(world, entity):
@@ -93,6 +189,7 @@ def unschedule_action(world, action):
    world.action_queue.remove(action)
 
 
+
 def update_on_time(world, ticks):
    tiles = []
 
@@ -127,3 +224,4 @@ def get_tile_occupant(world, pt):
 
 def get_entities(world):
    return world.entities
+"""
