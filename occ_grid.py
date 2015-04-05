@@ -33,5 +33,5 @@ def set_cell(grid, point, value):
 
 def get_cell(grid, point):
    return grid.cells[point.y][point.x]
-   """
+"""
 
